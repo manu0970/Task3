@@ -34,23 +34,30 @@ var path = d3.geoPath().projection(projection);
 svg.call(tip);
 
 // World_countries extracted from: https://raw.githubusercontent.com/jdamiani27/Data-Visualization-and-D3/master/lesson4/world_countries.json
-queue()
-  .defer(d3.json, "world_countries.json")
-  .defer(d3.tsv, "world_population.tsv")
-  .await(ready);
 
-var years = [];
-for (var i = 1960; i <= 2016; i++) {
-  years.push(i);
+var year = 1960;
+
+autoRefreshChart(1000);
+
+function autoRefreshChart(miliSeconds) {
+  setInterval(function() {
+    if(year > 2015){
+      year = 1961
+    }
+      year = year + 1;
+    queue()
+    .defer(d3.json, "world_countries.json")
+    .await(ready);
+  }, miliSeconds);
 }
 
-function ready(error, data, population) {
+function ready(error, data) {
   var populationById = {};
 
   var countries = countryData
-  .filter(data => data.Year === 2015)
+  .filter(data => data.Year === year)
   .map(data => ({id:data["Country Code"], population:data.Value.toString()}))
-  console.log(years);
+  console.log(year);
   
   countries.forEach(function (d) { populationById[d.id] = +d.population; });
   data.features.forEach(function (d) { d.population = populationById[d.id] });
@@ -85,13 +92,6 @@ function ready(error, data, population) {
         .style("stroke-width", 0.3);
     });
 
-  /*
-    svg.append("path")
-    .datum(topojson.mesh(data.features, function (a, b) { return a.id !== b.id; }))
-
-    .attr("class", "names")
-    .attr("d", path);
-  */
 }
 
 
