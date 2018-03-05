@@ -39,13 +39,18 @@ queue()
   .defer(d3.tsv, "world_population.tsv")
   .await(ready);
 
+var years = [];
+for (var i = 1960; i <= 2016; i++) {
+  years.push(i);
+}
+
 function ready(error, data, population) {
   var populationById = {};
 
   var countries = countryData
   .filter(data => data.Year === 2015)
   .map(data => ({id:data["Country Code"], population:data.Value.toString()}))
-  console.log(countries[0]);
+  console.log(years);
   
   countries.forEach(function (d) { populationById[d.id] = +d.population; });
   data.features.forEach(function (d) { d.population = populationById[d.id] });
