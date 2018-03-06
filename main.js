@@ -1,3 +1,5 @@
+//SET MAP
+
 var format = d3.format(",");
 
 // Set tooltips
@@ -33,18 +35,44 @@ var path = d3.geoPath().projection(projection);
 
 svg.call(tip);
 
-// World_countries extracted from: https://raw.githubusercontent.com/jdamiani27/Data-Visualization-and-D3/master/lesson4/world_countries.json
+// COMBOBOX to pick year
+
+var array  = [];
+        for (var i = 1960; i <= 2015; i++) {
+          array .push(i);
+        }
+
+          function load_years()
+          {
+            
+            document.getElementById("MySelectYear").innerHTML += "<option value='"+0+"'>"+"Animated Version"+"</option>";
+
+              for(var i in array)
+              { 
+                  document.getElementById("MySelectYear").innerHTML += "<option value='"+array[i]+"'>"+array[i]+"</option>"; 
+
+              }
+      }
+
+      load_years();
+
+// INICIALITE MAP
 
 var year = 1960;
 var oldyear = year;
+// World_countries extracted from: https://raw.githubusercontent.com/jdamiani27/Data-Visualization-and-D3/master/lesson4/world_countries.json
 queue()
 .defer(d3.json, "world_countries.json")
 .await(ready);
 
+// ANIMATED MAP each 2000ms change the year
 autoRefreshChart(2000);
+
+//Funtions
 
 function autoRefreshChart(miliSeconds) {
   setInterval(function() {
+
     year = parseInt(document.getElementById('MySelectYear').value);
     if (year == 0) {
       year = oldyear + 1;
@@ -53,7 +81,9 @@ function autoRefreshChart(miliSeconds) {
       year = 1961
     }
     oldyear = year
+
     document.getElementById("showYear").innerHTML = year;
+
     queue()
     .defer(d3.json, "world_countries.json")
     .await(ready);
@@ -100,7 +130,6 @@ function ready(error, data) {
         .style("stroke", "white")
         .style("stroke-width", 0.3);
 
-      
     });
 
 }
