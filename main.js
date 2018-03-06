@@ -53,6 +53,7 @@ function autoRefreshChart(miliSeconds) {
       year = 1961
     }
     oldyear = year
+    document.getElementById("showYear").innerHTML = year;
     queue()
     .defer(d3.json, "world_countries.json")
     .await(ready);
