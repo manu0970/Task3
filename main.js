@@ -36,15 +36,23 @@ svg.call(tip);
 // World_countries extracted from: https://raw.githubusercontent.com/jdamiani27/Data-Visualization-and-D3/master/lesson4/world_countries.json
 
 var year = 1960;
+var oldyear = year;
+queue()
+.defer(d3.json, "world_countries.json")
+.await(ready);
 
-autoRefreshChart(1000);
+autoRefreshChart(2000);
 
 function autoRefreshChart(miliSeconds) {
   setInterval(function() {
+    year = parseInt(document.getElementById('MySelectYear').value);
+    if (year == 0) {
+      year = oldyear + 1;
+    }
     if(year > 2015){
       year = 1961
     }
-      year = year + 1;
+    oldyear = year
     queue()
     .defer(d3.json, "world_countries.json")
     .await(ready);
@@ -90,6 +98,8 @@ function ready(error, data) {
         .style("opacity", 0.8)
         .style("stroke", "white")
         .style("stroke-width", 0.3);
+
+      
     });
 
 }
