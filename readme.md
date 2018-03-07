@@ -182,6 +182,8 @@ var array  = [];
 
       load_years();
 ```
+![comboboxYear](./pictures_to_github/combobox_year.JPG "ComboBox: Years")
+
 In addition, an "animated mode" is requested. Which changed the years automatically. To do this we add one more year "0", when the program detects it will pass the "animation mode".
 ```diff
 var array  = [];
@@ -203,6 +205,8 @@ var array  = [];
 
       load_years();
 ```
+![comboboxModeAnimated](./pictures_to_github/animated.JPG "ComboBox: Mode Animated")
+
 The variables are initialized. The variable "oldyear" is used to store the year when it is in "animation mode".
 ```javascript
 var year = 1960;
@@ -291,6 +295,8 @@ function ready(error, data) {
     });
 }
 ```
+![MAP](./pictures_to_github/Map.JPG "Final Map")
+
 The final result is shown in the following animated image:
 - The data of the chosen year "1960" is shown. When the mouse passes over a country it shows its population with a tooltip.
 - In the combobox instead of selecting a year, "Animated" is selected, it will pass to the next year every 2 seconds.
